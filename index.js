@@ -4,7 +4,7 @@ const cors = require("cors");
 const { recoverPersonalSignature } = require("eth-sig-util");
 const Web3 = require("web3");
 
-const serviceAccount = require("./serviceAccountKey.json");
+const serviceAccount = require("./utils/firebaseServiceAccount");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
