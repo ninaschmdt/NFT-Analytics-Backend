@@ -1,6 +1,7 @@
 const express = require("express");
 const admin = require("firebase-admin");
 const cors = require("cors");
+
 const { recoverPersonalSignature } = require("eth-sig-util");
 const Web3 = require("web3");
 
@@ -13,16 +14,25 @@ admin.initializeApp({
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(cors());
+app.use(cors(corsOptions));
 
-app.use((req, res, next) => {
+const corsOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
+}
+
+
+
+// Testing to fix CORS issue
+/*app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
   res.header(
     "Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization"
   );
   next();
-});
+});*/
 
 
 
