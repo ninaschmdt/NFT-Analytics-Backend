@@ -14,26 +14,27 @@ admin.initializeApp({
 const app = express();
 const port = process.env.PORT || 4000;
 
-const corsOptions ={
+
+
+// Test 2 to fix CORS
+/*const corsOptions ={
   origin:'*', 
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200,
-}
+}*/
 
-app.use(cors(corsOptions));
-
-
+app.use(cors());
 
 
 // Testing to fix CORS issue
-/*app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
   res.header(
     "Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization"
   );
   next();
-});*/
+});
 
 
 
