@@ -38,12 +38,14 @@ const getMessageToSign = async (req, res) => {
       return res.send({ error: "invalid_address" });
     }
 
+    console.log("here")
     const randomString = makeId(20);
     let messageToSign = `Wallet address: ${address} Nonce: ${randomString}`;
 
     // Get user data from firestore database
     const user = await admin.firestore().collection("users").doc(address).get();
 
+    console.log("here2",user)
     if (user.data() && user.data().messageToSign) {
       // messageToSign already exists for that particular wallet address
       messageToSign = user.data().messageToSign;
