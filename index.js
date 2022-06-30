@@ -14,13 +14,14 @@ admin.initializeApp({
 const app = express();
 const port = process.env.PORT || 4000;
 
-app.use(cors(corsOptions));
-
 const corsOptions ={
   origin:'*', 
   credentials:true,            //access-control-allow-credentials:true
   optionSuccessStatus:200,
 }
+
+app.use(cors(corsOptions));
+
 
 
 
