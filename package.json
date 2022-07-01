@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/ninaschmdt/NFT-Database-Backend#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "cors": "^2.8.5",
     "eth-sig-util": "^3.0.0",
     "express": "^4.17.0",

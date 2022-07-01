@@ -1,11 +1,10 @@
 const express = require("express");
 const admin = require("firebase-admin");
 const cors = require("cors");
-
 const { recoverPersonalSignature } = require("eth-sig-util");
 const Web3 = require("web3");
-
 const serviceAccount = require("./utils/firebaseServiceAccount");
+const icyToolsRouter = require('./routes/icyToolsRouter')
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -14,29 +13,8 @@ admin.initializeApp({
 const app = express();
 const port = process.env.PORT || 4000;
 
-
-
-// Test 2 to fix CORS
-/*const corsOptions ={
-  origin:'*', 
-  credentials:true,            //access-control-allow-credentials:true
-  optionSuccessStatus:200,
-}*/
-
-app.use(cors());
-
-
-// Testing to fix CORS issue
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-  res.header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE");
-  res.header(
-    "Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization"
-  );
-  next();
-});
-
-
+app.use(express.json())
+app.use(cors({ origin: '*' }));
 
 const isValidEthAddress = (address) => Web3.utils.isAddress(address);
 
@@ -68,7 +46,7 @@ const getMessageToSign = async (req, res) => {
     // Get user data from firestore database
     const user = await admin.firestore().collection("users").doc(address).get();
 
-    console.log("here2",user)
+    console.log("here2", user)
     if (user.data() && user.data().messageToSign) {
       // messageToSign already exists for that particular wallet address
       messageToSign = user.data().messageToSign;
@@ -159,6 +137,7 @@ app.get("/message", getMessageToSign);
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
+app.use('/icytoolsproxy', icyToolsRouter)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
